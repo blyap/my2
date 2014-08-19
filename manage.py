@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-COV = None # test1
+COV = None # test2
 if os.environ.get('FLASK_COVERAGE'):
     import coverage
     COV = coverage.coverage(branch=True, include='app/*')
