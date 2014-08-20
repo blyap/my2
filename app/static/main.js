@@ -29,7 +29,7 @@ require([
 ) {
 	"use strict";
 
-	var goo = new GooRunner({canvas: myCanvas});
+	var goo = new GooRunner({logo : false, canvas: myCanvas});
   	var picked = null;
   	var aimSize;
 
