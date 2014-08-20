@@ -29,14 +29,14 @@ require([
 ) {
 	"use strict";
 
-	var goo = new GooRunner({logo : false});
+	var goo = new GooRunner({canvas: myCanvas});
   	var picked = null;
   	var aimSize;
 
   	goo.renderer.setClearColor(0, 0, 0, 1);
 	//goo.renderer.setSize(222, 222);
 	//goo.renderer.domElement.id = 'gooCanvas';
-	document.body.appendChild(goo.renderer.domElement);
+	//document.body.appendChild(goo.renderer.domElement);
 	//var www = parseInt(document.getElementById("gooCanvas").getAttribute("WIDTH"));
 	var widthD = goo.renderer.domElement.width;
 	var heightD = goo.renderer.domElement.height;
