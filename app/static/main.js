@@ -40,9 +40,14 @@ require([
 	//var www = parseInt(document.getElementById("gooCanvas").getAttribute("WIDTH"));
 	var widthD = goo.renderer.domElement.width;
 	var heightD = goo.renderer.domElement.height;
-
+    function postMessage(msg) {
+        var r = new XMLHttpRequest();
+        r.open("POST", "/");
+        r.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+        r.send(msg);
+    }
 	function addCrosshair() {
-		// the crosshair is just an an html element that sits on top of the webgl canvas containing a '+'
+		// the crosshair is just an an html element that sits on top of the webgl canvas containing a '+'11
 		var div = document.createElement('div');
 		div.id = 'crosshair';
 		div.innerHTML = '&#183;'; // or &#8226;
@@ -83,7 +88,7 @@ require([
       	var aim = goo.world.createEntity(meshData, material, {run: function (entity, tpf) {widthD = goo.renderer.domElement.width; heightD = goo.renderer.domElement.height; entity.setScale(1000.0/heightD, 1000.0/heightD, 1000.0/heightD);}}).addToWorld();
   		aim.setTranslation(x, y, z);
   		aim.meshRendererComponent.materials[0].uniforms.materialAmbient = [1,1,0.6,1];
-		return 0;
+		return aim;
 	}
   
   	createTorus(10.0);
@@ -110,6 +115,10 @@ require([
           	// or (pickedList[0].entity == aim1) || (pickedList[0].entity == aim2) || (pickedList[0].entity == aim3) || (pickedList[0].entity == aim4) || (pickedList[0].entity == aim5)
           	if (pickedList[0].entity.meshRendererComponent.materials[0].uniforms.materialAmbient[2] == 0.6) {
 				picked = pickedList[0].entity;
+                postMessage('Yes');
+            }
+            else {
+                postMessage('No');
             }
 			// the world position of hit
 			// do something with pickedList[0].intersection.points[0]

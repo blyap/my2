@@ -42,6 +42,8 @@ def index():
         db.session.add(post)
         return redirect(url_for('.index'))
     page = request.args.get('page', 1, type=int)
+    asddd = request.data
+    print(asddd) # 333
     show_followed = False
     if current_user.is_authenticated():
         show_followed = bool(request.cookies.get('show_followed', ''))
@@ -54,7 +56,7 @@ def index():
         error_out=False)
     posts = pagination.items
     return render_template('index.html', form=form, posts=posts,
-                           show_followed=show_followed, pagination=pagination)
+                           show_followed=show_followed, pagination=pagination, asddd=asddd)
 
 
 @main.route('/user/<username>')
