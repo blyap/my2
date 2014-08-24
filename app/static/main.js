@@ -80,10 +80,9 @@ require([
     var y = [0.0, 0.0, 0.0, 0.0, 20.0]; //var y = new Array(5);
     var z = [-20.0, 20.0, 0.0, 0.0, 0.0]; //var z = new Array(5);
     for (var i = 0; i < aim.length; i++)  {
-        aim[i] = goo.world.createEntity(meshData, material, {run: function (entity, tpf) {widthD = goo.renderer.domElement.width; heightD = goo.renderer.domElement.height; entity.setScale(1000.0/heightD, 1000.0/heightD, 1000.0/heightD);}}).addToWorld();
-        aim[i].setTranslation(x[i], y[i], z[i]);
-        aim[i].meshRendererComponent.materials[0].uniforms.materialAmbient = [1,1,0.6,1];
+        aim[i] = goo.world.createEntity(meshData, material).addToWorld();
     }
+
   	function createTorus(y){
       	var meshData = ShapeCreator.createTorus(24, 24, 0.1, 10);
       	var material = Material.createMaterial(ShaderLib.simpleLit);
@@ -127,6 +126,13 @@ require([
 	};
 
 	goo.callbacks.push(function(tpf) {
+        for (var i = 0; i < aim.length; i++)  {
+            widthD = goo.renderer.domElement.width;
+            heightD = goo.renderer.domElement.height;
+            aim[i].setTranslation(x[i], y[i], z[i]);
+            aim[i].meshRendererComponent.materials[0].uniforms.materialAmbient = [1,1,0.6,1];
+            aim[i].setScale(1000.0/heightD, 1000.0/heightD, 1000.0/heightD);
+        }
 		if (picked) {
 			var val = Math.abs(Math.sin(goo.world.time)) + 0.5;
 			picked.transformComponent.setScale(val, val, val);
