@@ -73,6 +73,17 @@ require([
 		document.body.appendChild(div);
 	}
 
+    var meshData = ShapeCreator.createSphere(24, 24, 1.0); // 3 - radius
+    var material = Material.createMaterial(ShaderLib.simpleLit);
+    var aim = new Array(5);
+    var x = [0.0, 0.0, -20.0, 20.0, 0.0]; //var x = new Array(5);
+    var y = [0.0, 0.0, 0.0, 0.0, 20.0]; //var y = new Array(5);
+    var z = [-20.0, 20.0, 0.0, 0.0, 0.0]; //var z = new Array(5);
+    for (var i = 0; i < aim.length; i++)  {
+        aim[i] = goo.world.createEntity(meshData, material, {run: function (entity, tpf) {widthD = goo.renderer.domElement.width; heightD = goo.renderer.domElement.height; entity.setScale(1000.0/heightD, 1000.0/heightD, 1000.0/heightD);}}).addToWorld();
+        aim[i].setTranslation(x[i], y[i], z[i]);
+        aim[i].meshRendererComponent.materials[0].uniforms.materialAmbient = [1,1,0.6,1];
+    }
   	function createTorus(y){
       	var meshData = ShapeCreator.createTorus(24, 24, 0.1, 10);
       	var material = Material.createMaterial(ShaderLib.simpleLit);
@@ -81,23 +92,9 @@ require([
       	tor.meshRendererComponent.materials[0].uniforms.materialAmbient = [1,1,0.5,1];
       	return 0;
     }
-  
-	function createAstronomicalObject(radius, x, y, z) {
-		var meshData = ShapeCreator.createSphere(24, 24, radius);
-      	var material = Material.createMaterial(ShaderLib.simpleLit);
-      	var aim = goo.world.createEntity(meshData, material, {run: function (entity, tpf) {widthD = goo.renderer.domElement.width; heightD = goo.renderer.domElement.height; entity.setScale(1000.0/heightD, 1000.0/heightD, 1000.0/heightD);}}).addToWorld();
-  		aim.setTranslation(x, y, z);
-  		aim.meshRendererComponent.materials[0].uniforms.materialAmbient = [1,1,0.6,1];
-		return aim;
-	}
-  
+
   	createTorus(10.0);
   	createTorus(-10.0);
-  	createAstronomicalObject(1.0, 0.0, 0.0, -20.0);
-  	createAstronomicalObject(1.0, 0.0, 0.0, 20.0);
-  	createAstronomicalObject(1.0, -20.0, 0.0, 0.0);
-  	createAstronomicalObject(1.0, 20.0, 0.0, 0.0);
-  	createAstronomicalObject(1.0, 0.0, 20.0, 0.0);  
 
 	var camera = new Camera(90);
   	goo.world.createEntity( camera, new FPCamControlScript({
