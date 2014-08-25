@@ -1,5 +1,5 @@
 from flask import render_template, redirect, url_for, abort, flash, request,\
-    current_app, make_response
+    current_app, make_response, jsonify
 from flask.ext.login import login_required, current_user
 from flask.ext.sqlalchemy import get_debug_queries
 from . import main
@@ -42,8 +42,10 @@ def index():
         db.session.add(post)
         return redirect(url_for('.index'))
     page = request.args.get('page', 1, type=int)
-    asddd = request.data
-    print(asddd) # 333
+    reqData = request.data
+    if reqData == b'start':
+        print(reqData) # 333
+        return jsonify({'ttt': '111'})
     show_followed = False
     if current_user.is_authenticated():
         show_followed = bool(request.cookies.get('show_followed', ''))
@@ -56,7 +58,7 @@ def index():
         error_out=False)
     posts = pagination.items
     return render_template('index.html', form=form, posts=posts,
-                           show_followed=show_followed, pagination=pagination, asddd=asddd)
+                           show_followed=show_followed, pagination=pagination)
 
 
 @main.route('/user/<username>')

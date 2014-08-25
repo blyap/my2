@@ -46,6 +46,7 @@ require([
         r.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
         r.send(msg);
     }
+    postMessage('start');
 	function addCrosshair() {
 		// the crosshair is just an an html element that sits on top of the webgl canvas containing a '+'11
 		var div = document.createElement('div');
@@ -124,9 +125,23 @@ require([
 			picked = null;
 		}
 	};
+    function getTextSync(url) {
+        var request = new XMLHttpRequest();  // Create new request
+        request.open("GET", url, false);     // Pass false for synchronous
+        request.send(null);                  // Send the request now
+        if (request.status !== 200) throw new Error(request.statusText);
+        var type = request.getResponseHeader("Content-Type");
+        if (!type.match(/^text/))
+            throw new Error("Expected textual response; got: " + type);
 
+        return request.responseText;
+    }
+    var resp = getTextSync("/");
+    //var respJ = JSON.parse(resp);
+    //alert(resp);
 	goo.callbacks.push(function(tpf) {
         for (var i = 0; i < aim.length; i++)  {
+           // alert(resp);
             widthD = goo.renderer.domElement.width;
             heightD = goo.renderer.domElement.height;
             aim[i].setTranslation(x[i], y[i], z[i]);
