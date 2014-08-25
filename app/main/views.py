@@ -32,6 +32,14 @@ def server_shutdown():
     return 'Shutting down...'
 
 
+@main.route('/aim', methods=['GET', 'POST'])
+def aim():
+    reqData = request.data
+    if reqData == b'start':
+        print(reqData)
+    responseT = make_response('<h1>good Request</h1>')
+    return responseT #jsonify({'ttt': '111'})
+
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = PostForm()
@@ -42,10 +50,6 @@ def index():
         db.session.add(post)
         return redirect(url_for('.index'))
     page = request.args.get('page', 1, type=int)
-    reqData = request.data
-    if reqData == b'start':
-        print(reqData) # 333
-        return jsonify({'ttt': '111'})
     show_followed = False
     if current_user.is_authenticated():
         show_followed = bool(request.cookies.get('show_followed', ''))

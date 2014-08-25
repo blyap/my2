@@ -136,12 +136,12 @@ require([
 
         return request.responseText;
     }
-    var resp = getTextSync("/");
+    var resp = getTextSync("/aim");
     //var respJ = JSON.parse(resp);
     //alert(resp);
 	goo.callbacks.push(function(tpf) {
+        alert(resp);
         for (var i = 0; i < aim.length; i++)  {
-           // alert(resp);
             widthD = goo.renderer.domElement.width;
             heightD = goo.renderer.domElement.height;
             aim[i].setTranslation(x[i], y[i], z[i]);
