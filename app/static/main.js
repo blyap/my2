@@ -31,21 +31,32 @@ require([
 
 	var goo = new GooRunner({logo : false, canvas: myCanvas});
   	var picked = null;
-  	var aimSize;
+  	var aimSize, widthD, heightD, resp, respJ;
 
   	goo.renderer.setClearColor(0, 0, 0, 1);
 	//goo.renderer.setSize(222, 222);
 	//goo.renderer.domElement.id = 'gooCanvas';
 	//document.body.appendChild(goo.renderer.domElement);
 	//var www = parseInt(document.getElementById("gooCanvas").getAttribute("WIDTH"));
-	var widthD = goo.renderer.domElement.width;
-	var heightD = goo.renderer.domElement.height;
+
     function postMessage(msg) {
         var r = new XMLHttpRequest();
         r.open("POST", "/aim/");
         r.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
         r.send(msg);
     }
+    function getTextSync(url) {
+        var request = new XMLHttpRequest();  // Create new request
+        request.open("GET", url, false);     // Pass false for synchronous
+        request.send(null);                  // Send the request now
+/*        if (request.status !== 200) throw new Error(request.statusText);
+        var type = request.getResponseHeader("Content-Type");
+        if (!type.match(/^text/))
+            throw new Error("Expe1cted textual response; got: " + type);*/
+
+        return request.responseText;
+    }
+
     postMessage('start');
 	function addCrosshair() {
 		// the crosshair is just an an html element that sits on top of the webgl canvas containing a '+'11
@@ -125,21 +136,10 @@ require([
 			picked = null;
 		}
 	};
-    function getTextSync(url) {
-        var request = new XMLHttpRequest();  // Create new request
-        request.open("GET", url, false);     // Pass false for synchronous
-        request.send(null);                  // Send the request now
-/*        if (request.status !== 200) throw new Error(request.statusText);
-        var type = request.getResponseHeader("Content-Type");
-        if (!type.match(/^text/))
-            throw new Error("Expected textual response; got: " + type);*/
 
-        return request.responseText;
-    }
-    var resp = getTextSync("/aim/");
-    var respJ = JSON.parse(resp);
-    //alert(resp);
 	goo.callbacks.push(function(tpf) {
+        resp = getTextSync("/aim/");
+        respJ = JSON.parse(resp);
         alert(respJ['ttt']);
         for (var i = 0; i < aim.length; i++)  {
             widthD = goo.renderer.domElement.width;
