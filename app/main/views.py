@@ -32,14 +32,6 @@ def server_shutdown():
     return 'Shutting down...'
 
 
-@main.route('/aim', methods=['GET', 'POST'])
-def aim():
-    reqData = request.data
-    if reqData == b'start':
-        print(reqData)
-    responseT = make_response('<h1>good Request</h1>')
-    return responseT #jsonify({'ttt': '111'})
-
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = PostForm()

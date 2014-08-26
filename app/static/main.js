@@ -42,7 +42,7 @@ require([
 	var heightD = goo.renderer.domElement.height;
     function postMessage(msg) {
         var r = new XMLHttpRequest();
-        r.open("POST", "/");
+        r.open("POST", "/aim/");
         r.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
         r.send(msg);
     }
@@ -136,7 +136,7 @@ require([
 
         return request.responseText;
     }
-    var resp = getTextSync("/aim");
+    var resp = getTextSync("/aim/");
     //var respJ = JSON.parse(resp);
     //alert(resp);
 	goo.callbacks.push(function(tpf) {
