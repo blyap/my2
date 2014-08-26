@@ -8,4 +8,5 @@ def aim():
     if reqData == b'start':
         print(reqData)
     responseT = make_response('<h1>good Request</h1>')
-    return responseT #jsonify({'ttt': '111'})
+    responseJ = jsonify({'ttt': 111})
+    return responseJ

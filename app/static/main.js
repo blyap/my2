@@ -129,18 +129,18 @@ require([
         var request = new XMLHttpRequest();  // Create new request
         request.open("GET", url, false);     // Pass false for synchronous
         request.send(null);                  // Send the request now
-        if (request.status !== 200) throw new Error(request.statusText);
+/*        if (request.status !== 200) throw new Error(request.statusText);
         var type = request.getResponseHeader("Content-Type");
         if (!type.match(/^text/))
-            throw new Error("Expected textual response; got: " + type);
+            throw new Error("Expected textual response; got: " + type);*/
 
         return request.responseText;
     }
     var resp = getTextSync("/aim/");
-    //var respJ = JSON.parse(resp);
+    var respJ = JSON.parse(resp);
     //alert(resp);
 	goo.callbacks.push(function(tpf) {
-        alert(resp);
+        alert(respJ['ttt']);
         for (var i = 0; i < aim.length; i++)  {
             widthD = goo.renderer.domElement.width;
             heightD = goo.renderer.domElement.height;
