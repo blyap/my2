@@ -1,4 +1,4 @@
-from flask import render_template, request, url_for, make_response, jsonify
+from flask import request, url_for, make_response, jsonify
 from . import aim
 
 
