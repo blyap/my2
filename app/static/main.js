@@ -142,7 +142,7 @@ require([
         respJ = JSON.parse(resp);
         widthD = goo.renderer.domElement.width;
         heightD = goo.renderer.domElement.height;
-        alert(respJ['ttt']);
+        //alert(respJ['ttt']);
         for (var i = 0; i < aim.length; i++)  {
             aim[i].setTranslation(x[i], y[i], z[i]);
             aim[i].meshRendererComponent.materials[0].uniforms.materialAmbient = [1,1,0.6,1];
