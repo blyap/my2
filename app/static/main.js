@@ -130,7 +130,7 @@ require([
                 //alert(respJ['sens']);
             }
             else {
-                get('/aim/', eval(), 'no');
+                get('/aim/', eval(), 'noTime');
             }
 			// the world position of hit
 			// do something with pickedList[0].intersection.points[0]
@@ -138,6 +138,7 @@ require([
 			// do something with pickedList[0].intersection.distances[0]
 		} else {
 			picked = null;
+            get('/aim/', eval(), 'miss');
 		}
 	};
 
