@@ -31,7 +31,7 @@ require([
 
 	var goo = new GooRunner({logo : false, canvas: myCanvas});
   	var picked = null;
-  	var aimSize, widthD, heightD, resp, respJ;
+  	var widthD, heightD, respJ;
 
   	goo.renderer.setClearColor(0, 0, 0, 1);
 	//goo.renderer.setSize(222, 222);
@@ -39,26 +39,27 @@ require([
 	//document.body.appendChild(goo.renderer.domElement);
 	//var www = parseInt(document.getElementById("gooCanvas").getAttribute("WIDTH"));
 
-    function postMessage(msg) {
-        var r = new XMLHttpRequest();
-        r.open("POST", "/aim/");
-        r.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-        r.send(msg);
-    }
-    function getTextSync(url) {
-        var request = new XMLHttpRequest();  // Create new request
-        request.open("GET", url, false);     // Pass false for synchronous
-        request.send(null);                  // Send the request now
-/*        if (request.status !== 200) throw new Error(request.statusText);
-        var type = request.getResponseHeader("Content-Type");
-        if (!type.match(/^text/))
-            throw new Error("Expe1cted textual response; got: " + type);*/
+	function get(url, callback, msg) {
+		var request = new XMLHttpRequest();         // Create new request
+		request.open("POST", url);                   // Specify URL to fetch
+		request.onreadystatechange = function() {   // Define event listener
+			// If the request is compete and was successful
+			if (request.readyState === 4 && request.status === 200) {
+				// Get the type of the response
+				var type = request.getResponseHeader("Content-Type");
+				// Check type so we don't get HTML documents in the future
+				if (type.indexOf("xml") !== -1 && request.responseXML)
+					callback(respJ = request.responseXML);              // Document response
+				else if (type === "application/json")
+					callback(respJ = JSON.parse(request.responseText)); // JSON response
+				else
+					callback(respJ = request.responseText);             // String response
+			}
+		};
+		request.send(msg);                         // Send the request now
+	}
 
-        return request.responseText;
-    }
-
-    postMessage('start');
-    respJ = JSON.parse(getTextSync("/aim/"));
+    get('/aim/', eval(), 'start');
 
 	function addCrosshair() {
 		// the crosshair is just an an html element that sits on top of the webgl canvas containing a '+'11
@@ -125,12 +126,11 @@ require([
           	// or (pickedList[0].entity == aim1) || (pickedList[0].entity == aim2) || (pickedList[0].entity == aim3) || (pickedList[0].entity == aim4) || (pickedList[0].entity == aim5)
           	if (pickedList[0].entity.meshRendererComponent.materials[0].uniforms.materialAmbient[2] == 0.6) {
 				picked = pickedList[0].entity;
-                postMessage('Yes');
-                respJ = JSON.parse(getTextSync("/aim/"));
-                alert(respJ['sens']);
+                get('/aim/', eval(), 'yes');
+                //alert(respJ['sens']);
             }
             else {
-                postMessage('No');
+                get('/aim/', eval(), 'no');
             }
 			// the world position of hit
 			// do something with pickedList[0].intersection.points[0]
@@ -144,7 +144,6 @@ require([
 	goo.callbacks.push(function(tpf) {
         widthD = goo.renderer.domElement.width;
         heightD = goo.renderer.domElement.height;
-        //alert(respJ['ttt']);
         for (var i = 0; i < aim.length; i++)  {
             aim[i].setTranslation(x[i], y[i], z[i]);
             aim[i].meshRendererComponent.materials[0].uniforms.materialAmbient = [1,1,0.6,1];
