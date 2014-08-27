@@ -58,12 +58,14 @@ require([
     }
 
     postMessage('start');
+    respJ = JSON.parse(getTextSync("/aim/"));
+
 	function addCrosshair() {
 		// the crosshair is just an an html element that sits on top of the webgl canvas containing a '+'11
 		var div = document.createElement('div');
 		div.id = 'crosshair';
 		div.innerHTML = '&#183;'; // or &#8226;
-		div.style.color = 'white'
+		div.style.color = 'white';
 		div.style.position = 'absolute';
 		div.style.fontSize = 'x-large';
 		div.style.zIndex = '2000';
@@ -138,11 +140,9 @@ require([
 	};
 
 	goo.callbacks.push(function(tpf) {
-        resp = getTextSync("/aim/");
-        respJ = JSON.parse(resp);
         widthD = goo.renderer.domElement.width;
         heightD = goo.renderer.domElement.height;
-        alert(respJ['ttt']);
+        //alert(respJ['ttt']);
         for (var i = 0; i < aim.length; i++)  {
             aim[i].setTranslation(x[i], y[i], z[i]);
             aim[i].meshRendererComponent.materials[0].uniforms.materialAmbient = [1,1,0.6,1];
