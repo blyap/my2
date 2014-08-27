@@ -41,23 +41,14 @@ require([
 
     function postMessage(msg) {
         var r = new XMLHttpRequest();
-        r.open("POST", "/aim/");
+        r.open("POST", "/aim/", false); // Pass false for synchronous
         r.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
         r.send(msg);
-    }
-    function getTextSync(url) {
-        var request = new XMLHttpRequest();  // Create new request
-        request.open("GET", url, false);     // Pass false for synchronous
-        request.send(null);                  // Send the request now
-/*        if (request.status !== 200) throw new Error(request.statusText);
-        var type = request.getResponseHeader("Content-Type");
-        if (!type.match(/^text/))
-            throw new Error("Expe1cted textual response; got: " + type);*/
-
-        return request.responseText;
+        return r.responseText;
     }
 
-    postMessage('start');
+    respJ = JSON.parse(postMessage('start'));
+
 	function addCrosshair() {
 		// the crosshair is just an an html element that sits on top of the webgl canvas containing a '+'11
 		var div = document.createElement('div');
@@ -138,8 +129,6 @@ require([
 	};
 
 	goo.callbacks.push(function(tpf) {
-        resp = getTextSync("/aim/");
-        respJ = JSON.parse(resp);
         widthD = goo.renderer.domElement.width;
         heightD = goo.renderer.domElement.height;
         //alert(respJ['ttt']);
