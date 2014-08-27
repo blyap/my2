@@ -1,3 +1,4 @@
+import random
 from flask import request, url_for, make_response, jsonify
 from . import aim
 
@@ -8,5 +9,6 @@ def aim():
     if reqData == b'start':
         print(reqData)
     responseT = make_response('<h1>good Request</h1>')
-    responseJ = jsonify({'ttt': 111})
+    ddd = {'sens': random.randint(1, 99)}
+    responseJ = jsonify(ddd)
     return responseJ

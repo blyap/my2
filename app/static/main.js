@@ -126,6 +126,8 @@ require([
           	if (pickedList[0].entity.meshRendererComponent.materials[0].uniforms.materialAmbient[2] == 0.6) {
 				picked = pickedList[0].entity;
                 postMessage('Yes');
+                respJ = JSON.parse(getTextSync("/aim/"));
+                alert(respJ['sens']);
             }
             else {
                 postMessage('No');
